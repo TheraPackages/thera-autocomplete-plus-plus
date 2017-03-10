@@ -10,10 +10,10 @@ class SuggestionList
     @emitter = new Emitter
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-text-editor.autocomplete-active',
-      'autocomplete-plus:confirm': @confirmSelection,
-      'autocomplete-plus:confirmIfNonDefault': @confirmSelectionIfNonDefault,
-      'autocomplete-plus:cancel': @cancel
-    @subscriptions.add(atom.config.observe('autocomplete-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
+      'thera-autocomplete-plus-plus:confirm': @confirmSelection,
+      'thera-autocomplete-plus-plus:confirmIfNonDefault': @confirmSelectionIfNonDefault,
+      'thera-autocomplete-plus-plus:cancel': @cancel
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
       if enableExtendedUnicodeSupport
         @wordPrefixRegex = new RegExp("^[#{UnicodeLetters}\\d_-]")
       else
@@ -24,22 +24,22 @@ class SuggestionList
     @bindings?.dispose()
     @bindings = new CompositeDisposable
 
-    completionKey = atom.config.get('autocomplete-plus.confirmCompletion') or ''
+    completionKey = atom.config.get('thera-autocomplete-plus-plus.confirmCompletion') or ''
 
     keys = {}
-    keys['tab'] = 'autocomplete-plus:confirm' if completionKey.indexOf('tab') > -1
+    keys['tab'] = 'thera-autocomplete-plus-plus:confirm' if completionKey.indexOf('tab') > -1
     if completionKey.indexOf('enter') > -1
       if completionKey.indexOf('always') > -1
-        keys['enter'] = 'autocomplete-plus:confirmIfNonDefault'
+        keys['enter'] = 'thera-autocomplete-plus-plus:confirmIfNonDefault'
       else
-        keys['enter'] = 'autocomplete-plus:confirm'
+        keys['enter'] = 'thera-autocomplete-plus-plus:confirm'
 
     @bindings.add atom.keymaps.add(
       'atom-text-editor.autocomplete-active',
       {'atom-text-editor.autocomplete-active': keys})
 
-    useCoreMovementCommands = atom.config.get('autocomplete-plus.useCoreMovementCommands')
-    commandNamespace = if useCoreMovementCommands then 'core' else 'autocomplete-plus'
+    useCoreMovementCommands = atom.config.get('thera-autocomplete-plus-plus.useCoreMovementCommands')
+    commandNamespace = if useCoreMovementCommands then 'core' else 'thera-autocomplete-plus-plus'
 
     commands = {}
     commands["#{commandNamespace}:move-up"] = (event) =>
@@ -71,7 +71,7 @@ class SuggestionList
       atom.views.getView(editor), commands)
 
     @bindings.add(
-      atom.config.onDidChange 'autocomplete-plus.useCoreMovementCommands', =>
+      atom.config.onDidChange 'thera-autocomplete-plus-plus.useCoreMovementCommands', =>
         @addBindings(editor))
 
   ###
@@ -152,7 +152,7 @@ class SuggestionList
     @activeEditor?
 
   show: (editor, options) =>
-    if atom.config.get('autocomplete-plus.suggestionListFollows') is 'Cursor'
+    if atom.config.get('thera-autocomplete-plus-plus.suggestionListFollows') is 'Cursor'
       @showAtCursorPosition(editor, options)
     else
       prefix = options.prefix

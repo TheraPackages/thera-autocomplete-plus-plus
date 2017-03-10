@@ -27,8 +27,8 @@ class ProviderManager
     @globalBlacklist = new CompositeDisposable
     @subscriptions.add(@globalBlacklist)
     @providers = []
-    @subscriptions.add(atom.config.observe('autocomplete-plus.enableBuiltinProvider', (value) => @toggleDefaultProvider(value)))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.scopeBlacklist', (value) => @setGlobalBlacklist(value)))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.enableBuiltinProvider', (value) => @toggleDefaultProvider(value)))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.scopeBlacklist', (value) => @setGlobalBlacklist(value)))
 
   dispose: ->
     @toggleDefaultProvider(false)
@@ -96,7 +96,7 @@ class ProviderManager
 
     if enabled
       return if @defaultProvider? or @defaultProviderRegistration?
-      if atom.config.get('autocomplete-plus.defaultProvider') is 'Symbol'
+      if atom.config.get('thera-autocomplete-plus-plus.defaultProvider') is 'Symbol'
         SymbolProvider ?= require('./symbol-provider')
         @defaultProvider = new SymbolProvider()
       else
@@ -164,7 +164,6 @@ class ProviderManager
           Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
           contains an `id` property.
           An `id` attribute on your provider is no longer necessary.
-          See https://github.com/atom/autocomplete-plus/wiki/Provider-API
         """
       if provider.requestHandler?
         grim ?= require 'grim'
@@ -172,7 +171,6 @@ class ProviderManager
           Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
           contains a `requestHandler` property.
           `requestHandler` has been renamed to `getSuggestions`.
-          See https://github.com/atom/autocomplete-plus/wiki/Provider-API
         """
       if provider.blacklist?
         grim ?= require 'grim'
@@ -180,7 +178,6 @@ class ProviderManager
           Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
           contains a `blacklist` property.
           `blacklist` has been renamed to `disableForScopeSelector`.
-          See https://github.com/atom/autocomplete-plus/wiki/Provider-API
         """
 
     if apiIs3_0
@@ -188,7 +185,6 @@ class ProviderManager
         throw new Error("""
           Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
           specifies `selector` instead of the `scopeSelector` attribute.
-          See https://github.com/atom/autocomplete-plus/wiki/Provider-API.
         """)
 
       if provider.disableForSelector?
@@ -196,7 +192,6 @@ class ProviderManager
           Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
           specifies `disableForSelector` instead of the `disableForScopeSelector`
           attribute.
-          See https://github.com/atom/autocomplete-plus/wiki/Provider-API.
         """)
 
     unless @isValidProvider(provider, apiVersion)

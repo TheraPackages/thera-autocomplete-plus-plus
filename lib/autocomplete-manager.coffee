@@ -40,7 +40,7 @@ class AutocompleteManager
     @providerManager = new ProviderManager
     @suggestionList = new SuggestionList
 
-    @subscriptions.add(atom.config.observe('autocomplete-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
       if enableExtendedUnicodeSupport
         @prefixRegex = new RegExp("(['\"~`!@#\\$%^&*\\(\\)\\{\\}\\[\\]=\+,/\\?>])?(([#{UnicodeLetters}\\d_]+[#{UnicodeLetters}\\d_-]*)|([.:;[{(< ]+))$")
         @wordPrefixRegex = new RegExp("^[#{UnicodeLetters}\\d_]+[#{UnicodeLetters}\\d_-]*$")
@@ -130,15 +130,15 @@ class AutocompleteManager
 
     # Watch config values
     @subscriptions.add(atom.config.observe('autosave.enabled', (value) => @autosaveEnabled = value))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.backspaceTriggersAutocomplete', (value) => @backspaceTriggersAutocomplete = value))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.enableAutoActivation', (value) => @autoActivationEnabled = value))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.enableAutoConfirmSingleSuggestion', (value) => @autoConfirmSingleSuggestionEnabled = value))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.consumeSuffix', (value) => @consumeSuffix = value))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.useAlternateScoring', (value) => @useAlternateScoring = value ))
-    @subscriptions.add atom.config.observe 'autocomplete-plus.fileBlacklist', (value) =>
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.backspaceTriggersAutocomplete', (value) => @backspaceTriggersAutocomplete = value))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.enableAutoActivation', (value) => @autoActivationEnabled = value))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.enableAutoConfirmSingleSuggestion', (value) => @autoConfirmSingleSuggestionEnabled = value))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.consumeSuffix', (value) => @consumeSuffix = value))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.useAlternateScoring', (value) => @useAlternateScoring = value ))
+    @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.fileBlacklist', (value) =>
       @fileBlacklist = value?.map((s) -> s.trim())
       @isCurrentFileBlackListedCache = null
-    @subscriptions.add atom.config.observe 'autocomplete-plus.suppressActivationForEditorClasses', (value) =>
+    @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.suppressActivationForEditorClasses', (value) =>
       @suppressForClasses = []
       for selector in value
         classes = (className.trim() for className in selector.trim().split('.') when className.trim())
@@ -151,7 +151,7 @@ class AutocompleteManager
 
   handleCommands: =>
     @subscriptions.add atom.commands.add 'atom-text-editor',
-      'autocomplete-plus:activate': (event) =>
+      'thera-autocomplete-plus-plus:activate': (event) =>
         @shouldDisplaySuggestions = true
         @findSuggestions(event.detail?.activatedManually ? true)
 
@@ -194,7 +194,7 @@ class AutocompleteManager
           buffer: options.editor.getBuffer()
           cursor: options.editor.getLastCursor()
           line: options.line
-
+      
       providerPromises.push Promise.resolve(getSuggestions(upgradedOptions)).then (providerSuggestions) =>
         return unless providerSuggestions?
 
@@ -279,7 +279,7 @@ class AutocompleteManager
         Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
         returns suggestions with a `word` attribute.
         The `word` attribute is now `text`.
-        See https://github.com/atom/autocomplete-plus/wiki/Provider-API
+        See https://github.com/atom/thera-autocomplete-plus-plus/wiki/Provider-API
       """
     if suggestion.prefix?
       hasDeprecations = true
@@ -288,7 +288,7 @@ class AutocompleteManager
         Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
         returns suggestions with a `prefix` attribute.
         The `prefix` attribute is now `replacementPrefix` and is optional.
-        See https://github.com/atom/autocomplete-plus/wiki/Provider-API
+        See https://github.com/atom/thera-autocomplete-plus-plus/wiki/Provider-API
       """
     if suggestion.label?
       hasDeprecations = true
@@ -297,7 +297,7 @@ class AutocompleteManager
         Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
         returns suggestions with a `label` attribute.
         The `label` attribute is now `rightLabel` or `rightLabelHTML`.
-        See https://github.com/atom/autocomplete-plus/wiki/Provider-API
+        See https://github.com/atom/thera-autocomplete-plus-plus/wiki/Provider-API
       """
     if suggestion.onWillConfirm?
       hasDeprecations = true
@@ -306,7 +306,7 @@ class AutocompleteManager
         Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
         returns suggestions with a `onWillConfirm` callback.
         The `onWillConfirm` callback is no longer supported.
-        See https://github.com/atom/autocomplete-plus/wiki/Provider-API
+        See https://github.com/atom/thera-autocomplete-plus-plus/wiki/Provider-API
       """
     if suggestion.onDidConfirm?
       hasDeprecations = true
@@ -315,7 +315,7 @@ class AutocompleteManager
         Autocomplete provider '#{provider.constructor.name}(#{provider.id})'
         returns suggestions with a `onDidConfirm` callback.
         The `onDidConfirm` callback is now a `onDidInsertSuggestion` callback on the provider itself.
-        See https://github.com/atom/autocomplete-plus/wiki/Provider-API
+        See https://github.com/atom/thera-autocomplete-plus-plus/wiki/Provider-API
       """
     hasDeprecations
 
@@ -456,7 +456,7 @@ class AutocompleteManager
 
   # Private: Gets called when the content has been modified
   requestNewSuggestions: =>
-    delay = atom.config.get('autocomplete-plus.autoActivationDelay')
+    delay = atom.config.get('thera-autocomplete-plus-plus.autoActivationDelay')
     clearTimeout(@delayTimeout)
     delay = @suggestionDelay if @suggestionList.isActive()
     @delayTimeout = setTimeout(@findSuggestions, delay)

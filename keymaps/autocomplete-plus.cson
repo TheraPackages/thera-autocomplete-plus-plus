@@ -1,5 +1,5 @@
 'atom-text-editor':
-  'ctrl-space': 'autocomplete-plus:activate'
+  'ctrl-space': 'thera-autocomplete-plus-plus:activate'
 
 'atom-text-editor.autocomplete-active':
-  'escape': 'autocomplete-plus:cancel'
+  'escape': 'thera-autocomplete-plus-plus:cancel'

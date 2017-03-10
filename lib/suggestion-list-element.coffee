@@ -51,7 +51,7 @@ class SuggestionListElement extends HTMLElement
 
   attachedCallback: ->
     # TODO: Fix overlay decorator to in atom to apply class attribute correctly, then move this to overlay creation point.
-    @parentElement.classList.add('autocomplete-plus')
+    @parentElement.classList.add('thera-autocomplete-plus-plus')
     @addActiveClassToEditor()
     @renderList() unless @ol
     @itemsChanged()
@@ -72,9 +72,9 @@ class SuggestionListElement extends HTMLElement
     @subscriptions.add @model.onDidconfirmSelectionIfNonDefault(@confirmSelectionIfNonDefault.bind(this))
     @subscriptions.add @model.onDidDispose(@dispose.bind(this))
 
-    @subscriptions.add atom.config.observe 'autocomplete-plus.suggestionListFollows', (@suggestionListFollows) =>
-    @subscriptions.add atom.config.observe 'autocomplete-plus.maxVisibleSuggestions', (@maxVisibleSuggestions) =>
-    @subscriptions.add atom.config.observe 'autocomplete-plus.useAlternateScoring', (@useAlternateScoring) =>
+    @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.suggestionListFollows', (@suggestionListFollows) =>
+    @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.maxVisibleSuggestions', (@maxVisibleSuggestions) =>
+    @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.useAlternateScoring', (@useAlternateScoring) =>
     this
 
   # This should be unnecessary but the events we need to override

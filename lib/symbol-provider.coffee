@@ -43,7 +43,7 @@ class SymbolProvider
 
   constructor: ->
     @subscriptions = new CompositeDisposable
-    @subscriptions.add(atom.config.observe('autocomplete-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
       if enableExtendedUnicodeSupport
         @wordRegex = new RegExp("[#{UnicodeLetters}\\d_]*[#{UnicodeLetters}}_-]+[#{UnicodeLetters}}\\d_]*(?=[^#{UnicodeLetters}\\d_]|$)", 'g')
         @beginningOfLineWordRegex = new RegExp("^[#{UnicodeLetters}\\d_]*[#{UnicodeLetters}_-]+[#{UnicodeLetters}\\d_]*(?=[^#{UnicodeLetters}\\d_]|$)", 'g')
@@ -57,11 +57,11 @@ class SymbolProvider
     ))
     @watchedBuffers = new WeakMap
 
-    @subscriptions.add(atom.config.observe('autocomplete-plus.minimumWordLength', (@minimumWordLength) => ))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.includeCompletionsFromAllBuffers', (@includeCompletionsFromAllBuffers) => ))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.useAlternateScoring', (useAlternateScoring) => @symbolStore.setUseAlternateScoring(useAlternateScoring)))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.useLocalityBonus', (useLocalityBonus) => @symbolStore.setUseLocalityBonus(useLocalityBonus)))
-    @subscriptions.add(atom.config.observe('autocomplete-plus.strictMatching', (useStrictMatching) => @symbolStore.setUseStrictMatching(useStrictMatching)))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.minimumWordLength', (@minimumWordLength) => ))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.includeCompletionsFromAllBuffers', (@includeCompletionsFromAllBuffers) => ))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.useAlternateScoring', (useAlternateScoring) => @symbolStore.setUseAlternateScoring(useAlternateScoring)))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.useLocalityBonus', (useLocalityBonus) => @symbolStore.setUseLocalityBonus(useLocalityBonus)))
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.strictMatching', (useStrictMatching) => @symbolStore.setUseStrictMatching(useStrictMatching)))
     @subscriptions.add(atom.workspace.observeActivePaneItem(@updateCurrentEditor))
     @subscriptions.add(atom.workspace.observeTextEditors(@watchEditor))
 

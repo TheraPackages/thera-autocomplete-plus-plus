@@ -20,7 +20,7 @@ class FuzzyProvider
 
   constructor: ->
     @subscriptions = new CompositeDisposable
-    @subscriptions.add(atom.config.observe('autocomplete-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
+    @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
       if enableExtendedUnicodeSupport
         @wordRegex = new RegExp("[#{UnicodeLetters}\\d_]+[#{UnicodeLetters}\\d_-]*", 'g')
       else
@@ -28,7 +28,7 @@ class FuzzyProvider
     ))
     @debouncedBuildWordList()
     @subscriptions.add(atom.workspace.observeActivePaneItem(@debouncedUpdateCurrentEditor))
-    builtinProviderBlacklist = atom.config.get('autocomplete-plus.builtinProviderBlacklist')
+    builtinProviderBlacklist = atom.config.get('thera-autocomplete-plus-plus.builtinProviderBlacklist')
     @disableForScopeSelector = builtinProviderBlacklist if builtinProviderBlacklist? and builtinProviderBlacklist.length
 
   debouncedUpdateCurrentEditor: (currentPaneItem) =>
@@ -113,7 +113,7 @@ class FuzzyProvider
 
     @tokenList.clear()
 
-    if atom.config.get('autocomplete-plus.includeCompletionsFromAllBuffers')
+    if atom.config.get('thera-autocomplete-plus-plus.includeCompletionsFromAllBuffers')
       editors = atom.workspace.getTextEditors()
     else
       editors = [@editor]
@@ -122,7 +122,7 @@ class FuzzyProvider
       @addWordsForText(editor.getText())
 
   addWordsForText: (text) ->
-    minimumWordLength = atom.config.get('autocomplete-plus.minimumWordLength')
+    minimumWordLength = atom.config.get('thera-autocomplete-plus-plus.minimumWordLength')
     matches = text.match(@wordRegex)
     return unless matches?
     for match in matches
@@ -148,7 +148,7 @@ class FuzzyProvider
     tokens = tokens.concat(@getCompletionsForCursorScope(scopeDescriptor))
 
     words =
-      if atom.config.get('autocomplete-plus.strictMatching')
+      if atom.config.get('thera-autocomplete-plus-plus.strictMatching')
         tokens.filter((word) -> word?.indexOf(prefix) is 0)
       else
         fuzzaldrin.filter(tokens, prefix)
