@@ -100,11 +100,9 @@ class SuggestionListElement extends HTMLElement
     item if item.tagName is 'LI'
 
   updateDescription: (item) ->
-    console.log 'wowowowo '
     item = item ? @model?.items?[@selectedIndex]
     return unless item?
 
-    console.log item
     if item.description? and item.description.length > 0
       @descriptionContainer.style.display = 'block'
       @descriptionContent.textContent = item.description
