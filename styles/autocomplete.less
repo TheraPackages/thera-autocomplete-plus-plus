@@ -12,10 +12,12 @@
 @item-side-padding: .6em;
 
 atom-overlay.thera-autocomplete-plus-plus {
+  background-color: hsla(1, 0%, 10%, 20%) !important;
   z-index: 5;
 }
 
 autocomplete-suggestion-list.select-list.popover-list {
+  background-color: hsla(1, 0%, 10%, 20%) !important;
   width: auto;
   display: inline-block;
   min-width: 200px;
@@ -29,6 +31,7 @@ autocomplete-suggestion-list.select-list.popover-list {
   }
 
   .suggestion-description {
+    background-color: hsla(1, 0%, 0%, 80%) !important;
     padding: 5px 0;
     padding-left: @item-side-padding;
     padding-right: @item-side-padding;
@@ -60,7 +63,7 @@ autocomplete-suggestion-list.select-list.popover-list {
     display: table;
     width: 100%;
     margin-right: 10px; // Needed to prevent horizontal scrolling when right label is too long
-
+    background-color: hsla(1, 0%, 0%, 75%);
     li {
       display: table-row;
       color: @text-color;
@@ -93,6 +96,7 @@ autocomplete-suggestion-list.select-list.popover-list {
 }
 
 autocomplete-suggestion-list {
+  // background-color: hsla(1, 0%, 10%, 100%) !important;
   .icon-container {
     width: @row-line-height;
     padding-left: 0;
@@ -226,3 +230,4 @@ autocomplete-suggestion-list {
     background: fadeout(@corrected-color, 80%);
   }
 }
+
