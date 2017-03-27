@@ -234,10 +234,10 @@ class SuggestionListElement extends HTMLElement
     count
 
   renderSelectedItem: ->
-    @selectedLi?.classList.remove('selected')
+    @selectedLi?.classList.remove('selected-autocomplate')
     @selectedLi = @ol.childNodes[@selectedIndex]
     if @selectedLi?
-      @selectedLi.classList.add('selected')
+      @selectedLi.classList.add('selected-autocomplate')
       @scrollSelectedItemIntoView()
       @updateDescription()
 
@@ -295,7 +295,7 @@ class SuggestionListElement extends HTMLElement
       @ol.appendChild(li)
 
     li.className = ''
-    li.classList.add('selected') if index is @selectedIndex
+    li.classList.add('selected-autocomplate') if index is @selectedIndex
     @addClassToElement(li, className) if className
     @selectedLi = li if index is @selectedIndex
 

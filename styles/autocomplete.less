@@ -80,16 +80,19 @@ autocomplete-suggestion-list.select-list.popover-list {
         content: ' ';
       }
 
-      &.selected {
+      &.selected-autocomplate {
         .word {
-          color: fadeout(@text-color-selected, 20%);
+          color: hsl(190, 100%, 10%) !important;
         }
         .character-match {
-          color: @text-color-selected;
+          color: hsl(320, 100%, 50%) !important;
+          font-weight: bolder;
         }
         .left-label, .right-label, .snippet-completion {
-          color: fadeout(@text-color-selected, 50%);
+          color: hsl(190, 100%, 10%);
         }
+        
+        background-color: hsl(190, 100%, 65%);
       }
     }
   }
@@ -230,4 +233,3 @@ autocomplete-suggestion-list {
     background: fadeout(@corrected-color, 80%);
   }
 }
-
