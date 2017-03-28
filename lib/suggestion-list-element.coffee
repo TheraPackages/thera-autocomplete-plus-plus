@@ -282,10 +282,10 @@ class SuggestionListElement extends HTMLElement
     count
 
   renderSelectedItem: ->
-    @selectedLi?.classList.remove('selected')
+    @selectedLi?.classList.remove('selected-plus')
     @selectedLi = @ol.childNodes[@selectedIndex]
     if @selectedLi?
-      @selectedLi.classList.add('selected')
+      @selectedLi.classList.add('selected-plus')
       @scrollSelectedItemIntoView()
       @updateDescription()
 
@@ -356,7 +356,7 @@ class SuggestionListElement extends HTMLElement
       @ol.appendChild(li)
 
     li.className = ''
-    li.classList.add('selected') if index is @selectedIndex
+    li.classList.add('selected-plus') if index is @selectedIndex
     @addClassToElement(li, className) if className
     @selectedLi = li if index is @selectedIndex
 
