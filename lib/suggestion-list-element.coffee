@@ -36,8 +36,8 @@ ListTemplate = """
       <div class="suggestDetail">
           <!-- title -->
           <span class="span-line-block">
-          			<span style="font-size: 14px;color: #ec8c1e"> &lt a &gt </span>
-          			<span style="font-size: 14px;color:black"> of Element </span>
+          			<span style="font-size: 14px;color: #cc554d"> &lt a &gt </span>
+          			<span style="font-size: 14px;color:#d1d2d7"> of Element </span>
           </span>
           <!-- 描述 -->
           <div class="div-explain-element">
@@ -49,7 +49,15 @@ ListTemplate = """
           </div>
           <!-- 剩余内容 -->
           <div class = "detail-text">
-            
+            <h2 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h2><p><code>&lt;a&gt;</code> 支持所有通用样式。</p>
+            <ul>
+            <li>盒模型</li>
+            <li><code>flexbox</code> 布局</li>
+            <li><code>position</code></li>
+            <li><code>opacity</code></li>
+            <li><code>background-color</code></li>
+            </ul>
+            <p>查看 <a href="../common-style.html">组件通用样式</a>。</p>
           </div>
   		</div>
     </div>
@@ -274,10 +282,10 @@ class SuggestionListElement extends HTMLElement
     count
 
   renderSelectedItem: ->
-    @selectedLi?.classList.remove('selected-autocomplate')
+    @selectedLi?.classList.remove('selected')
     @selectedLi = @ol.childNodes[@selectedIndex]
     if @selectedLi?
-      @selectedLi.classList.add('selected-autocomplate')
+      @selectedLi.classList.add('selected')
       @scrollSelectedItemIntoView()
       @updateDescription()
 
@@ -348,7 +356,7 @@ class SuggestionListElement extends HTMLElement
       @ol.appendChild(li)
 
     li.className = ''
-    li.classList.add('selected-autocomplate') if index is @selectedIndex
+    li.classList.add('selected') if index is @selectedIndex
     @addClassToElement(li, className) if className
     @selectedLi = li if index is @selectedIndex
 
