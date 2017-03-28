@@ -4,6 +4,7 @@
 @import "ui-variables";
 @import "syntax-variables";
 
+
 @font-size-small: .9em;
 @type-icon-font-size: 1em;
 @type-letter-icon-font-size: @font-size-small;
@@ -225,11 +226,152 @@ autocomplete-suggestion-list {
   }
 }
 .make-type-icon(@type, @color)
-  when (hsvvalue(@color) - hsvvalue(@overlay-background-color) > -20)
-  and (hsvvalue(@color) - hsvvalue(@overlay-background-color) < 20) {
+when (hsvvalue(@color) - hsvvalue(@overlay-background-color) > -20)
+and (hsvvalue(@color) - hsvvalue(@overlay-background-color) < 20) {
   .icon.@{type} {
     @corrected-color: contrast(@overlay-background-color, darken(@color, 30%), lighten(@color, 30%));
     color: @corrected-color;
     background: fadeout(@corrected-color, 80%);
   }
+}
+
+.mainContext-box-main {
+  width: 550px;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.leftContext-box-left {
+  float: left;
+  width: 250px;
+}
+
+
+.rightContext-box-right {
+  -webkit-user-select:all;
+  user-select: all;
+
+  float: right;
+  width: 300px;
+  height: auto;
+  background-color: #FFFFFF;
+  overflow:auto;
+
+}
+
+.suggestionContent{
+  background-color: #FFFFFF;
+  width: 100%;
+
+}
+
+.detail-text{
+  font-family: 'News Cycle', sans-serif;
+  font-size: 12px;
+  color: grey;
+  code{
+    color: #ec8c1e !important;
+    background-color:transparent;
+  }
+
+
+}
+
+
+
+
+.suggestDetail{
+  margin-left: 5px;
+  font-family: 'News Cycle', sans-serif !important;
+
+  .div-explain-element {
+    display: block;
+
+  }
+
+}
+
+.div-example-element{
+  background: ghostwhite;
+  font-size: 12px;
+}
+
+.mytheme{
+  .comment,
+.quote {
+  color: #8e908c;
+}
+
+/* Tomorrow Red */
+.variable,
+.template-variable,
+.tag,
+.name,
+.selector-id,
+.selector-class,
+.regexp,
+.deletion {
+  color: #c82829;
+}
+
+/* Tomorrow Orange */
+.number,
+.built_in,
+.builtin-name,
+.literal,
+.type,
+.params,
+.meta,
+.link {
+  color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.attribute {
+  color: #eab700;
+}
+
+/* Tomorrow Green */
+.string,
+.symbol,
+.bullet,
+.addition {
+  color: #718c00;
+}
+
+/* Tomorrow Blue */
+.title,
+.section {
+  color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.keyword,
+.selector-tag {
+  color: #8959a8;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: gainsboro;
+  color: #4d4d4c;
+  padding: 0.5em;
+  border-radius:1px;
+  border: 0px solid #000000;
+
+}
+
+.emphasis {
+  font-style: italic;
+}
+
+.strong {
+  font-weight: bold;
+}
+
 }
