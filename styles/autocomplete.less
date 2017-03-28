@@ -29,6 +29,7 @@ autocomplete-suggestion-list.select-list.popover-list {
 
   .suggestion-list-scroller {
     overflow-y: auto;
+    background-color: hsla(1, 0%, 0%, 80%) !important;
   }
 
   .suggestion-description {
@@ -83,14 +84,15 @@ autocomplete-suggestion-list.select-list.popover-list {
 
       &.selected {
         .word {
-          color: fadeout(@text-color-selected, 20%);
+          color: hsl(50, 100%, 80%) !important;
         }
         .character-match {
-          color: @text-color-selected;
+          color: hsl(330, 100%, 50%) !important;
         }
         .left-label, .right-label, .snippet-completion {
-          color: fadeout(@text-color-selected, 50%);
+          color: hsl(190, 0%, 10%);
         }
+        background-color: hsla(190, 100%, 40%, 70%);
       }
     }
   }
