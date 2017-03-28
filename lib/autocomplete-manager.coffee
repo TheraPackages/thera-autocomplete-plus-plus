@@ -194,7 +194,7 @@ class AutocompleteManager
           buffer: options.editor.getBuffer()
           cursor: options.editor.getLastCursor()
           line: options.line
-      
+
       providerPromises.push Promise.resolve(getSuggestions(upgradedOptions)).then (providerSuggestions) =>
         return unless providerSuggestions?
 

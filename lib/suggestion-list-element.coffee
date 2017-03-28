@@ -2,6 +2,8 @@
 SnippetParser = require './snippet-parser'
 {isString} = require('./type-helpers')
 fuzzaldrinPlus = require 'fuzzaldrin-plus'
+$ = window.$ = window.jQuery = require 'jquery'
+hl = require("highlight").Highlight
 
 ItemTemplate = """
   <span class="icon-container"></span>
@@ -12,13 +14,45 @@ ItemTemplate = """
   <span class="right-label"></span>
 """
 
+code_string = "<?php\r\n"+
+                  "\techo \"Hello world!\";\r\n"+
+                  "\tfor($i=0;$i<100;$i++){\r\n"+
+                  "\t\techo \"$i\";\r\n"+
+                  "\t}\r\n"+
+                  "?>"
+
 ListTemplate = """
-  <div class="suggestion-list-scroller">
-    <ol class="list-group"></ol>
-  </div>
-  <div class="suggestion-description">
-    <span class="suggestion-description-content"></span>
-    <a class="suggestion-description-more-link" href="#">More..</a>
+  <div class='mainContext-box-main'>
+    <div class="leftContext-box-left">
+      <div class="suggestion-list-scroller">
+        <ol class="list-group"></ol>
+      </div>
+      <div class="suggestion-description">
+        <span class="suggestion-description-content"></span>
+        <a class="suggestion-description-more-link" href="#">More..</a>
+      </div>
+    </div>
+    <div class="rightContext-box-right">
+      <div class="suggestDetail">
+          <!-- title -->
+          <span class="span-line-block">
+          			<span style="font-size: 14px;color: #ec8c1e"> &lt a &gt </span>
+          			<span style="font-size: 14px;color:black"> of Element </span>
+          </span>
+          <!-- 描述 -->
+          <div class="div-explain-element">
+          			<span style="font-size: 12px;color: darkgrey"> 必须的，使用 HTML 语法描述页面结构，内容由多个标签组成，不同的标签代表不同的组件。 </span>
+          </div>
+          <div class = "mytheme">
+            <!-- 例子 -->
+            <pre class="hljs"><code class="html">#{hl(code_string)}</code></pre>
+          </div>
+          <!-- 剩余内容 -->
+          <div class = "detail-text">
+            
+          </div>
+  		</div>
+    </div>
   </div>
 """
 
@@ -75,6 +109,9 @@ class SuggestionListElement extends HTMLElement
     @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.suggestionListFollows', (@suggestionListFollows) =>
     @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.maxVisibleSuggestions', (@maxVisibleSuggestions) =>
     @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.useAlternateScoring', (@useAlternateScoring) =>
+
+
+
     this
 
   # This should be unnecessary but the events we need to override
@@ -127,6 +164,7 @@ class SuggestionListElement extends HTMLElement
     atom.views.pollAfterNextUpdate?()
     atom.views.updateDocument @renderItems.bind(this)
     atom.views.readDocument @readUIPropsFromDOM.bind(this)
+
 
   addActiveClassToEditor: ->
     editorElement = atom.views.getView(@model?.activeEditor)
@@ -201,9 +239,11 @@ class SuggestionListElement extends HTMLElement
     @innerHTML = ListTemplate
     @ol = @querySelector('.list-group')
     @scroller = @querySelector('.suggestion-list-scroller')
+    @rightContext = @querySelector('.suggestDetail')
     @descriptionContainer = @querySelector('.suggestion-description')
     @descriptionContent = @querySelector('.suggestion-description-content')
     @descriptionMoreLink = @querySelector('.suggestion-description-more-link')
+
 
   renderItems: ->
     @style.width = null
@@ -270,9 +310,22 @@ class SuggestionListElement extends HTMLElement
 
   updateUIForChangedProps: ->
     @scroller.style['max-height'] = "#{@maxVisibleSuggestions * @uiProps.itemHeight + @uiProps.paddingHeight}px"
+    @scroller.style['min-height'] = @scroller.style['max-height']
+    # $(@descriptionMoreLink).height()
+
+    #console.log parseInt(@scroller.style['max-height'])
+
+    @rightContext.style['height'] =  "#{parseInt(@scroller.style['max-height']) + 25}px"
+
+    #tempheight = $.parseInt(@scroller.style['max-height'],$(@descriptionMoreLink).height())
+
+    #console.log tempheight
+
     @style.width = "#{@uiProps.width}px"
     if @suggestionListFollows is 'Word'
       @style['margin-left'] = "#{@uiProps.marginLeft}px"
+
+
     @updateDescription()
 
   # Splits the classes on spaces so as not to anger the DOM gods
