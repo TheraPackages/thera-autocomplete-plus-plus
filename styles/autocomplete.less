@@ -81,19 +81,16 @@ autocomplete-suggestion-list.select-list.popover-list {
         content: ' ';
       }
 
-      &.selected-autocomplate {
+      &.selected {
         .word {
-          color: hsl(50, 100%, 80%) !important;
+          color: fadeout(@text-color-selected, 20%);
         }
         .character-match {
-          color: hsl(330, 100%, 50%) !important;
-          font-weight: bolder;
+          color: @text-color-selected;
         }
         .left-label, .right-label, .snippet-completion {
-          // color: hsl(50, 100%, 65%);
+          color: fadeout(@text-color-selected, 50%);
         }
-
-        background-color: hsla(190, 100%, 40%, 70%);
       }
     }
   }
@@ -258,7 +255,7 @@ and (hsvvalue(@color) - hsvvalue(@overlay-background-color) < 20) {
   float: right;
   width: 300px;
   height: auto;
-  background-color: #FFFFFF;
+  background-color: #2f2f37;
   overflow:auto;
 
 }
@@ -272,10 +269,16 @@ and (hsvvalue(@color) - hsvvalue(@overlay-background-color) < 20) {
 .detail-text{
   font-family: 'News Cycle', sans-serif;
   font-size: 12px;
-  color: grey;
+  color: #88898e;
   code{
-    color: #ec8c1e !important;
+    color: #cc554d !important;
     background-color:transparent;
+  }
+
+  h2{
+    color: #d1d2d7;
+    font-size: 14px;
+
   }
 
 
@@ -302,76 +305,61 @@ and (hsvvalue(@color) - hsvvalue(@overlay-background-color) < 20) {
 
 .mytheme{
   .comment,
-.quote {
-  color: #8e908c;
-}
+  .quote {
+    color: #8e908c;
+  }
 
-/* Tomorrow Red */
-.variable,
-.template-variable,
-.tag,
-.name,
-.selector-id,
-.selector-class,
-.regexp,
-.deletion {
-  color: #c82829;
-}
+  /* Tomorrow Night Theme */
+  /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+  /* Original theme - https://github.com/chriskempson/tomorrow-theme */
+  /* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+  .tomorrow-comment, pre .comment, pre .title {
+    color: #969896;
+  }
 
-/* Tomorrow Orange */
-.number,
-.built_in,
-.builtin-name,
-.literal,
-.type,
-.params,
-.meta,
-.link {
-  color: #f5871f;
-}
+  .tomorrow-red, pre .variable, pre .attribute, pre .tag, pre .regexp, pre .ruby .constant, pre .xml .tag .title, pre .xml .pi, pre .xml .doctype, pre .html .doctype, pre .css .id, pre .css .class, pre .css .pseudo {
+    color: #cc6666;
+  }
 
-/* Tomorrow Yellow */
-.attribute {
-  color: #eab700;
-}
+  .tomorrow-orange, pre .number, pre .preprocessor, pre .built_in, pre .literal, pre .params, pre .constant {
+    color: #de935f;
+  }
 
-/* Tomorrow Green */
-.string,
-.symbol,
-.bullet,
-.addition {
-  color: #718c00;
-}
+  .tomorrow-yellow, pre .class, pre .ruby .class .title, pre .css .rules .attribute {
+    color: #f0c674;
+  }
 
-/* Tomorrow Blue */
-.title,
-.section {
-  color: #4271ae;
-}
+  .tomorrow-green, pre .string, pre .value, pre .inheritance, pre .header, pre .ruby .symbol, pre .xml .cdata {
+    color: #b5bd68;
+  }
 
-/* Tomorrow Purple */
-.keyword,
-.selector-tag {
-  color: #8959a8;
-}
+  .tomorrow-aqua, pre .css .hexcolor {
+    color: #8abeb7;
+  }
 
-.hljs {
-  display: block;
-  overflow-x: auto;
-  background: gainsboro;
-  color: #4d4d4c;
-  padding: 0.5em;
-  border-radius:1px;
-  border: 0px solid #000000;
+  .tomorrow-blue, pre .function, pre .python .decorator, pre .python .title, pre .ruby .function .title, pre .ruby .title .keyword, pre .perl .sub, pre .javascript .title, pre .coffeescript .title {
+    color: #81a2be;
+  }
 
-}
+  .tomorrow-purple, pre .keyword, pre .javascript .function {
+    color: #b294bb;
+  }
 
-.emphasis {
-  font-style: italic;
-}
+  pre code {
+    display: block;
+    background: #1d1f21;
+    color: #c5c8c6;
+    font-family: Menlo, Monaco, Consolas, monospace;
+    line-height: 1.5;
+    border: 0px solid #ccc;
+    padding: 10px;
+  }
 
-.strong {
-  font-weight: bold;
-}
+  pre{
+    border: 0px solid #ccc;
+    padding: 0px;
+    border-radius: 0px;
+  }
+
 
 }
