@@ -1,4 +1,5 @@
 {CompositeDisposable} = require 'atom'
+MiniDocument = require './mini-document'
 
 module.exports =
   autocompleteManager: null
@@ -8,6 +9,8 @@ module.exports =
   activate: ->
     @subscriptions = new CompositeDisposable
     @requireAutocompleteManagerAsync()
+    miniDoc = new MiniDocument
+    miniDoc.load()
 
   # Public: Cleans everything up, removes all AutocompleteManager instances
   deactivate: ->

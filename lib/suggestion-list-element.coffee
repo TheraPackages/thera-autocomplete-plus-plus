@@ -36,12 +36,12 @@ ListTemplate = """
       <div class="suggestDetail">
           <!-- title -->
           <span class="span-line-block">
-          			<span style="font-size: 14px;color: #cc554d"> &lt a &gt </span>
-          			<span style="font-size: 14px;color:#d1d2d7"> of Element </span>
+            <span style="font-size: 14px;color: #cc554d"> &lt a &gt </span>
+            <span style="font-size: 14px;color:#d1d2d7"> of Element </span>
           </span>
           <!-- 描述 -->
           <div class="div-explain-element">
-          			<span style="font-size: 12px;color: darkgrey"> 必须的，使用 HTML 语法描述页面结构，内容由多个标签组成，不同的标签代表不同的组件。 </span>
+            <span style="font-size: 12px;color: darkgrey"> 必须的，使用 HTML 语法描述页面结构，内容由多个标签组成，不同的标签代表不同的组件。 </span>
           </div>
           <div class = "mytheme">
             <!-- 例子 -->
@@ -59,7 +59,7 @@ ListTemplate = """
             </ul>
             <p>查看 <a href="../common-style.html">组件通用样式</a>。</p>
           </div>
-  		</div>
+      </div>
     </div>
   </div>
 """
@@ -248,10 +248,10 @@ class SuggestionListElement extends HTMLElement
     @ol = @querySelector('.list-group')
     @scroller = @querySelector('.suggestion-list-scroller')
     @rightContext = @querySelector('.suggestDetail')
+    # @rightContext.style['display'] = "none"
     @descriptionContainer = @querySelector('.suggestion-description')
     @descriptionContent = @querySelector('.suggestion-description-content')
     @descriptionMoreLink = @querySelector('.suggestion-description-more-link')
-
 
   renderItems: ->
     @style.width = null
