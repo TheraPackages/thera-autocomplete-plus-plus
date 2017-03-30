@@ -11,7 +11,8 @@ isDirectory = (p)->
 
 module.exports =
 class MiniDocument
-  mini_doc: null
+
+  weexDoc: {}
 
   constructor: ->
 
@@ -20,7 +21,7 @@ class MiniDocument
     if isDirectory atom.configDirPath
       docPath = path.join atom.configDirPath, 'doc'
 
-      # 如果docs不存在，就建立一个
+      # 如果docs不存在，则创建
       if not fs.existsSync docPath
         fs.mkdirSync docPath
 
@@ -29,13 +30,24 @@ class MiniDocument
         fs.unlinkSync docPath
         fs.mkdirSync docPath
 
-      docFile = path.join docPath, 'weex-mini-document.cson'
-      if fs.existsSync docFile
-        @mini_doc = CSON.readFileSync docFile
-        console.log @mini_doc
+      docConfigPath = path.join docPath, 'config.cson'
+      config = {}
+      if fs.existsSync docConfigPath
+        config = CSON.readFileSync docConfigPath
+      else
+        config =
+          ".source.we": "weex-mini-document.cson"
+          ".source.lua": "lua-mini-document.cson"
+      for key, value of config
+        docFile = path.join docPath, value
+        if fs.existsSync docFile
+          @weexDoc[key] = CSON.readFileSync docFile
 
-        for k, v of @mini_doc
-          console.log k, v
-
-      # WeexDoc = CSON.readFileSync (path.join doc, 'weex-mini-document.cson')
-      # docJsonFilePath = path.join doc, 'weex-doc.json'
+  ###
+  # Document text provider
+  # @param cope: such as .source.we .source.lua
+  # @param name: such as suggestion list text
+  # @return the selected doc
+  ###
+  getMiniDocumentSection: (scope, name) ->
+    @weexDoc[scope]?[name]

@@ -8,6 +8,7 @@ ProviderManager = require './provider-manager'
 SuggestionList = require './suggestion-list'
 SuggestionListElement = require './suggestion-list-element'
 {UnicodeLetters} = require './unicode-helpers'
+MiniDocument = require './mini-document'
 
 # Deferred requires
 minimatch = null
@@ -34,11 +35,14 @@ class AutocompleteManager
   shouldDisplaySuggestions: false
   prefixRegex: null
   wordPrefixRegex: null
+  miniDocument: null
 
   constructor: ->
     @subscriptions = new CompositeDisposable
     @providerManager = new ProviderManager
     @suggestionList = new SuggestionList
+    @miniDocument = new MiniDocument
+    @miniDocument.load()
 
     @subscriptions.add(atom.config.observe('thera-autocomplete-plus-plus.enableExtendedUnicodeSupport', (enableExtendedUnicodeSupport) =>
       if enableExtendedUnicodeSupport
@@ -49,8 +53,9 @@ class AutocompleteManager
         @wordPrefixRegex = /^\w+[\w-]*$/
     ))
     @subscriptions.add(@providerManager)
+    _doc = @miniDocument
     @subscriptions.add atom.views.addViewProvider SuggestionList, (model) ->
-      new SuggestionListElement().initialize(model)
+      new SuggestionListElement().initialize(model, _doc)
 
     @handleEvents()
     @handleCommands()

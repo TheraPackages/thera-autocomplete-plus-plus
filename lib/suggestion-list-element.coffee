@@ -36,6 +36,40 @@ ListTemplate = """
       <div class="suggestDetail">
           <!-- title -->
           <span class="span-line-block">
+          </span>
+
+          <!-- 描述 -->
+          <div class="div-explain-element">
+          </div>
+
+          <!-- 例子 -->
+          <div class="mytheme">
+            <pre class="hljs"><code class="html"></code></pre>
+          </div>
+
+          <!-- 剩余内容 -->
+          <div class="detail-text">
+          </div>
+      </div>
+    </div>
+  </div>
+"""
+
+ListTemplate_BackUp = """
+  <div class='mainContext-box-main'>
+    <div class="leftContext-box-left">
+      <div class="suggestion-list-scroller">
+        <ol class="list-group"></ol>
+      </div>
+      <div class="suggestion-description">
+        <span class="suggestion-description-content"></span>
+        <a class="suggestion-description-more-link" href="#">More..</a>
+      </div>
+    </div>
+    <div class="rightContext-box-right">
+      <div class="suggestDetail">
+          <!-- title -->
+          <span class="span-line-block">
             <span style="font-size: 14px;color: #cc554d"> &lt a &gt </span>
             <span style="font-size: 14px;color:#d1d2d7"> of Element </span>
           </span>
@@ -43,7 +77,7 @@ ListTemplate = """
           <div class="div-explain-element">
             <span style="font-size: 12px;color: darkgrey"> 必须的，使用 HTML 语法描述页面结构，内容由多个标签组成，不同的标签代表不同的组件。 </span>
           </div>
-          <div class = "mytheme">
+          <div class="mytheme">
             <!-- 例子 -->
             <pre class="hljs"><code class="html">#{hl(code_string)}</code></pre>
           </div>
@@ -83,6 +117,8 @@ class SuggestionListElement extends HTMLElement
   maxItems: 200
   emptySnippetGroupRegex: /(\$\{\d+\:\})|(\$\{\d+\})|(\$\d+)/ig
   nodePool: null
+  miniDocument: null
+  selectedIndex: 0
 
   createdCallback: ->
     @subscriptions = new CompositeDisposable
@@ -101,8 +137,10 @@ class SuggestionListElement extends HTMLElement
   detachedCallback: ->
     @activeClassDisposable?.dispose()
 
-  initialize: (@model) ->
+  initialize: (@model, miniDoc) ->
     return unless @model?
+    @miniDocument = miniDoc
+
     @subscriptions.add @model.onDidChangeItems(@itemsChanged.bind(this))
     @subscriptions.add @model.onDidSelectNext(@moveSelectionDown.bind(this))
     @subscriptions.add @model.onDidSelectPrevious(@moveSelectionUp.bind(this))
@@ -248,12 +286,32 @@ class SuggestionListElement extends HTMLElement
     @ol = @querySelector('.list-group')
     @scroller = @querySelector('.suggestion-list-scroller')
     @rightContext = @querySelector('.suggestDetail')
-    # @rightContext.style['display'] = "none"
+
     @descriptionContainer = @querySelector('.suggestion-description')
     @descriptionContent = @querySelector('.suggestion-description-content')
     @descriptionMoreLink = @querySelector('.suggestion-description-more-link')
 
+  renderDocument: ->
+    console.log 'renderDocument'
+    items = @visibleItems()
+
+    selectedItem = items[@selectedIndex]
+    scope = selectedItem.provider.selector
+    name = selectedItem.text
+    docContent = @miniDocument.getMiniDocumentSection scope, name
+    if docContent
+      @rightContext.style['display'] = ""
+      for key, value of docContent
+        subContainer = @querySelector('.' + key)
+        if key is 'html' # CSON不支持 #{} ... html 用hl特别处理。。
+          subContainer.innerHTML = hl(value)
+        else
+          subContainer.innerHTML = value
+    else
+      @rightContext.style['display'] = 'none'
+
   renderItems: ->
+    @renderDocument()
     @style.width = null
     items = @visibleItems() ? []
     longestDesc = 0
@@ -288,6 +346,7 @@ class SuggestionListElement extends HTMLElement
       @selectedLi.classList.add('selected-plus')
       @scrollSelectedItemIntoView()
       @updateDescription()
+      @renderDocument()
 
   # This is reading the DOM in the updateDOM cycle. If we dont, there is a flicker :/
   scrollSelectedItemIntoView: ->
