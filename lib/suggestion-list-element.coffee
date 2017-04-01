@@ -292,17 +292,20 @@ class SuggestionListElement extends HTMLElement
     @descriptionMoreLink = @querySelector('.suggestion-description-more-link')
 
   renderDocument: ->
-    console.log 'renderDocument'
     items = @visibleItems()
 
     selectedItem = items[@selectedIndex]
     scope = selectedItem.provider.selector
     name = selectedItem.text
+    console.log name
+    if name is "templete"
+      debugger
     docContent = @miniDocument.getMiniDocumentSection scope, name
     if docContent
       @rightContext.style['display'] = ""
       for key, value of docContent
         subContainer = @querySelector('.' + key)
+        break unless subContainer
         if key is 'html' # CSON不支持 #{} ... html 用hl特别处理。。
           subContainer.innerHTML = hl(value)
         else
