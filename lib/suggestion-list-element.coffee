@@ -310,7 +310,23 @@ class SuggestionListElement extends HTMLElement
     @descriptionMoreLink = @querySelector('.suggestion-description-more-link')
 
   resvData: (data) ->
-    console.log data
+    docContent = data
+    if docContent
+      @rightContext.style['display'] = ""
+      @rightContext.innerHTML = docContent
+      code = @querySelector '.lang-html'
+      if code
+        console.log code.innerHTML
+        code.innerHTML = hl code.textContent
+      # for key, value of docContent
+      #   subContainer = @querySelector('.' + key)
+      #   break unless subContainer
+      #   if key is 'html' # CSON不支持 #{} ... html 用hl特别处理。。
+      #     subContainer.innerHTML = hl(value)
+      #   else
+      #     subContainer.innerHTML = value
+    else
+      @rightContext.style['display'] = 'none'
 
   renderDocument: ->
     items = @visibleItems()
@@ -318,25 +334,7 @@ class SuggestionListElement extends HTMLElement
     selectedItem = items[@selectedIndex]
     scope = selectedItem.provider.selector
     name = selectedItem.text
-    console.log scope
-    console.log name
-    @miniDocument.getMiniDocumentSection ".source.we", "a", (data) => @resvData(data)
-    # if docContent
-    #   @rightContext.style['display'] = ""
-    #   @rightContext.innerHTML = docContent
-    #   code = @querySelector '.lang-html'
-    #   if code
-    #     console.log code.innerHTML
-    #     code.innerHTML = hl code.textContent
-    #   # for key, value of docContent
-    #   #   subContainer = @querySelector('.' + key)
-    #   #   break unless subContainer
-    #   #   if key is 'html' # CSON不支持 #{} ... html 用hl特别处理。。
-    #   #     subContainer.innerHTML = hl(value)
-    #   #   else
-    #   #     subContainer.innerHTML = value
-    # else
-    #   @rightContext.style['display'] = 'none'
+    @miniDocument.getMiniDocumentSection scope, name, (data) => @resvData(data)
 
   renderItems: ->
     @renderDocument()
