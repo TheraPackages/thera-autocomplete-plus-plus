@@ -34,26 +34,44 @@ ListTemplate = """
     </div>
     <div class="rightContext-box-right">
       <div class="suggestDetail">
-          <!-- title -->
-          <span class="span-line-block">
-          </span>
-
-          <!-- 描述 -->
-          <div class="div-explain-element">
-          </div>
-
-          <!-- 例子 -->
-          <div class="mytheme">
-            <pre class="hljs"><code class="html"></code></pre>
-          </div>
-
-          <!-- 剩余内容 -->
-          <div class="detail-text">
-          </div>
       </div>
     </div>
   </div>
 """
+#
+# ListTemplate = """
+#   <div class='mainContext-box-main'>
+#     <div class="leftContext-box-left">
+#       <div class="suggestion-list-scroller">
+#         <ol class="list-group"></ol>
+#       </div>
+#       <div class="suggestion-description">
+#         <span class="suggestion-description-content"></span>
+#         <a class="suggestion-description-more-link" href="#">More..</a>
+#       </div>
+#     </div>
+#     <div class="rightContext-box-right">
+#       <div class="suggestDetail">
+#           <!-- title -->
+#           <span class="span-line-block">
+#           </span>
+#
+#           <!-- 描述 -->
+#           <div class="div-explain-element">
+#           </div>
+#
+#           <!-- 例子 -->
+#           <div class="mytheme">
+#             <pre class="hljs"><code class="html"></code></pre>
+#           </div>
+#
+#           <!-- 剩余内容 -->
+#           <div class="detail-text">
+#           </div>
+#       </div>
+#     </div>
+#   </div>
+# """
 
 ListTemplate_BackUp = """
   <div class='mainContext-box-main'>
@@ -291,27 +309,34 @@ class SuggestionListElement extends HTMLElement
     @descriptionContent = @querySelector('.suggestion-description-content')
     @descriptionMoreLink = @querySelector('.suggestion-description-more-link')
 
+  resvData: (data) ->
+    console.log data
+
   renderDocument: ->
     items = @visibleItems()
 
     selectedItem = items[@selectedIndex]
     scope = selectedItem.provider.selector
     name = selectedItem.text
+    console.log scope
     console.log name
-    if name is "templete"
-      debugger
-    docContent = @miniDocument.getMiniDocumentSection scope, name
-    if docContent
-      @rightContext.style['display'] = ""
-      for key, value of docContent
-        subContainer = @querySelector('.' + key)
-        break unless subContainer
-        if key is 'html' # CSON不支持 #{} ... html 用hl特别处理。。
-          subContainer.innerHTML = hl(value)
-        else
-          subContainer.innerHTML = value
-    else
-      @rightContext.style['display'] = 'none'
+    @miniDocument.getMiniDocumentSection ".source.we", "a", (data) => @resvData(data)
+    # if docContent
+    #   @rightContext.style['display'] = ""
+    #   @rightContext.innerHTML = docContent
+    #   code = @querySelector '.lang-html'
+    #   if code
+    #     console.log code.innerHTML
+    #     code.innerHTML = hl code.textContent
+    #   # for key, value of docContent
+    #   #   subContainer = @querySelector('.' + key)
+    #   #   break unless subContainer
+    #   #   if key is 'html' # CSON不支持 #{} ... html 用hl特别处理。。
+    #   #     subContainer.innerHTML = hl(value)
+    #   #   else
+    #   #     subContainer.innerHTML = value
+    # else
+    #   @rightContext.style['display'] = 'none'
 
   renderItems: ->
     @renderDocument()
