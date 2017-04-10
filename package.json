@@ -202,6 +202,7 @@
     "semver": "^4.3.3",
     "stable": "^0.1.5",
     "underscore-plus": "^1.6.6",
+    "highlight":"0.2.4",
     "nageland": "git+https://github.com/TheraPackages/nageland.git"
   },
   "description": "Display possible completions in the editor while typing",
@@ -209,8 +210,7 @@
     "coffeelint": "^1.9.7",
     "fs-plus": ">=2.4.0",
     "temp": ">=0.7.0",
-    "jquery":"2.1.4",
-    "highlight":"0.2.4"
+    "jquery":"2.1.4"
   },
   "engines": {
     "atom": ">=0.189.0 <2.0.0"

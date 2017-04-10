@@ -17,6 +17,15 @@ atom-overlay.thera-autocomplete-plus-plus {
   z-index: 5;
 }
 
+a:link {
+  color: rgb(71, 137, 231); //#0099ee;
+  font-weight: bolder;
+}
+
+code {
+  color: hsl(339, 100%, 74%) !important; //rgb(213, 85, 97) !important;
+}
+
 autocomplete-suggestion-list.select-list.popover-list {
   background-color: hsla(1, 0%, 10%, 20%) !important;
   width: auto;
@@ -236,7 +245,7 @@ and (hsvvalue(@color) - hsvvalue(@overlay-background-color) < 20) {
 }
 
 .mainContext-box-main {
-  width: 700px;
+  width: 702px;
   height: auto;
   margin: 0;
   padding: 0;
@@ -254,7 +263,8 @@ and (hsvvalue(@color) - hsvvalue(@overlay-background-color) < 20) {
 .rightContext-box-right {
   -webkit-user-select:all;
   user-select: all;
-
+  margin-left: 2px;
+  border-radius: 5px;
   float: right;
   width: 400px;
   height: auto;
@@ -291,8 +301,8 @@ and (hsvvalue(@color) - hsvvalue(@overlay-background-color) < 20) {
 
 
 .suggestDetail{
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 1em;
+  margin-right: 1em;
   font-family: 'News Cycle', sans-serif !important;
 
   .div-explain-element {

@@ -131,6 +131,77 @@ SnippetStart = 1
 SnippetEnd = 2
 SnippetStartAndEnd = 3
 
+scopesByFenceName =
+  'sh': 'source.shell'
+  'bash': 'source.shell'
+  'c': 'source.c'
+  'c++': 'source.cpp'
+  'cpp': 'source.cpp'
+  'coffee': 'source.coffee'
+  'coffeescript': 'source.coffee'
+  'coffee-script': 'source.coffee'
+  'cs': 'source.cs'
+  'csharp': 'source.cs'
+  'css': 'source.css'
+  'scss': 'source.css.scss'
+  'sass': 'source.sass'
+  'erlang': 'source.erl'
+  'go': 'source.go'
+  'html': 'text.html.basic'
+  'java': 'source.java'
+  'js': 'source.js'
+  'javascript': 'source.js'
+  'json': 'source.json'
+  'less': 'source.less'
+  'mustache': 'text.html.mustache'
+  'objc': 'source.objc'
+  'objective-c': 'source.objc'
+  'php': 'text.html.php'
+  'py': 'source.python'
+  'python': 'source.python'
+  'rb': 'source.ruby'
+  'ruby': 'source.ruby'
+  'text': 'text.plain'
+  'toml': 'source.toml'
+  'xml': 'text.xml'
+  'yaml': 'source.yaml'
+  'yml': 'source.yaml'
+
+scopeForFenceName = (name) ->
+  scopesByFenceName[name]
+
+convertCodeBlocksToAtomEditors = (domFragment, defaultLanguage='text') ->
+
+  if fontFamily = atom.config.get('editor.fontFamily')
+
+    for codeElement in domFragment.querySelectorAll('code')
+      codeElement.style.fontFamily = fontFamily
+
+  for preElement in domFragment.querySelectorAll('pre')
+    codeBlock = preElement.firstElementChild ? preElement
+    fenceName = codeBlock.getAttribute('class')?.replace(/^lang-/, '') ? defaultLanguage
+    console.log fenceName
+
+    editorElement = document.createElement('atom-text-editor')
+    editorElement.style['padding'] = "1em"
+    editorElement.style['border-radius'] = "3px"
+    editorElement.style['font-size'] = "0.9em"
+    editorElement.setAttributeNode(document.createAttribute('gutter-hidden'))
+    editorElement.removeAttribute('tabindex') # make read-only
+
+    preElement.parentNode.insertBefore(editorElement, preElement)
+    preElement.remove()
+
+    editor = editorElement.getModel()
+    # remove the default selection of a line in each editor
+    editor.getDecorations(class: 'cursor-line', type: 'line')[0].destroy()
+    editor.setText(codeBlock.textContent)
+    # if grammar = atom.grammars.grammarForScopeName(scopeForFenceName(fenceName))
+    if grammar = atom.grammars.grammarForScopeName(scopeForFenceName(fenceName))
+      editor.setGrammar(grammar)
+
+  domFragment
+
 class SuggestionListElement extends HTMLElement
   maxItems: 200
   emptySnippetGroupRegex: /(\$\{\d+\:\})|(\$\{\d+\})|(\$\d+)/ig
@@ -314,10 +385,12 @@ class SuggestionListElement extends HTMLElement
     if docContent
       @rightContext.style['display'] = ""
       @rightContext.innerHTML = docContent
-      code = @querySelector '.lang-html'
-      if code
-        console.log code.innerHTML
-        code.innerHTML = hl code.textContent
+      convertCodeBlocksToAtomEditors @rightContext
+      # code = @querySelector '.lang-html'
+      # if code
+      #   console.log code.innerHTML
+      #   code.innerHTML = hl code.textContent
+      #
       # for key, value of docContent
       #   subContainer = @querySelector('.' + key)
       #   break unless subContainer
