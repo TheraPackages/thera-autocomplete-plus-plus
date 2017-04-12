@@ -10,10 +10,13 @@ isDirectory = (p) ->
   return off
 
 isFile = (p) ->
-  stat = fs.lstatSync(p)
-  if stat && stat.isFile()
-    return on
-  return off
+  try
+    stat = fs.lstatSync(p)
+    if stat && stat.isFile()
+      return on
+    return off
+  catch err
+    return off
 
 module.exports =
 class MiniDocument
