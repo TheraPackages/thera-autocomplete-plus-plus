@@ -27,7 +27,7 @@ ListTemplate = """
       <div class="suggestion-list-scroller">
         <ol class="list-group"></ol>
       </div>
-      <div class="suggestion-description">
+      <div class="suggestion-description" style="display:none">
         <span class="suggestion-description-content"></span>
         <a class="suggestion-description-more-link" href="#">More..</a>
       </div>
@@ -79,7 +79,7 @@ ListTemplate_BackUp = """
       <div class="suggestion-list-scroller">
         <ol class="list-group"></ol>
       </div>
-      <div class="suggestion-description">
+      <div class="suggestion-description" >
         <span class="suggestion-description-content"></span>
         <a class="suggestion-description-more-link" href="#">More..</a>
       </div>
@@ -276,7 +276,7 @@ class SuggestionListElement extends HTMLElement
     return unless item?
 
     if item.description? and item.description.length > 0
-      @descriptionContainer.style.display = 'block'
+      @descriptionContainer.style.display = 'none'
       @descriptionContent.textContent = item.description
       if item.descriptionMoreURL? and item.descriptionMoreURL.length?
         @descriptionMoreLink.style.display = 'inline'
@@ -475,8 +475,8 @@ class SuggestionListElement extends HTMLElement
     @updateUIForChangedProps()
 
   updateUIForChangedProps: ->
-    @scroller.style['max-height'] = "#{@maxVisibleSuggestions * @uiProps.itemHeight + @uiProps.paddingHeight}px"
-    @scroller.style['min-height'] = @scroller.style['max-height']
+    #@scroller.style['max-height'] = "#{@maxVisibleSuggestions * @uiProps.itemHeight + @uiProps.paddingHeight}px"
+    #@scroller.style['min-height'] = @scroller.style['max-height']
     # $(@descriptionMoreLink).height()
 
     #console.log parseInt(@scroller.style['max-height'])
