@@ -27,14 +27,15 @@ ListTemplate = """
       <div class="suggestion-list-scroller">
         <ol class="list-group"></ol>
       </div>
-      <div class="suggestion-description" style="display:none">
-        <span class="suggestion-description-content"></span>
-        <a class="suggestion-description-more-link" href="#">More..</a>
-      </div>
+
     </div>
     <div class="rightContext-box-right">
       <div class="suggestDetail">
       </div>
+    </div>
+    <div class="suggestion-description">
+      <span class="suggestion-description-content"></span>
+      <a class="suggestion-description-more-link" href="#">More..</a>
     </div>
   </div>
 """
@@ -79,10 +80,7 @@ ListTemplate_BackUp = """
       <div class="suggestion-list-scroller">
         <ol class="list-group"></ol>
       </div>
-      <div class="suggestion-description" >
-        <span class="suggestion-description-content"></span>
-        <a class="suggestion-description-more-link" href="#">More..</a>
-      </div>
+
     </div>
     <div class="rightContext-box-right">
       <div class="suggestDetail">
@@ -112,6 +110,10 @@ ListTemplate_BackUp = """
             <p>查看 <a href="../common-style.html">组件通用样式</a>。</p>
           </div>
       </div>
+    </div>
+    <div class="suggestion-description" >
+      <span class="suggestion-description-content"></span>
+      <a class="suggestion-description-more-link" href="#">More..</a>
     </div>
   </div>
 """
@@ -276,7 +278,7 @@ class SuggestionListElement extends HTMLElement
     return unless item?
 
     if item.description? and item.description.length > 0
-      @descriptionContainer.style.display = 'none'
+      #@descriptionContainer.style.display = 'none'
       @descriptionContent.textContent = item.description
       if item.descriptionMoreURL? and item.descriptionMoreURL.length?
         @descriptionMoreLink.style.display = 'inline'
