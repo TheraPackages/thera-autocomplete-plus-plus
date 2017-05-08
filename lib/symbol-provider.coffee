@@ -206,6 +206,7 @@ class SymbolProvider
   ###
 
   getSuggestions: (options) =>
+    return null
     prefix = options.prefix?.trim()
     return unless prefix?.length and prefix?.length >= @minimumWordLength
 
