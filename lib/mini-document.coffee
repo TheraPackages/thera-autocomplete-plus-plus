@@ -30,12 +30,18 @@ class MiniDocument
   isLoaded: ->
     @isLoadedDone = on;
 
+  resolveDoc: ->
+    docZip = path.join atom.configDirPath, 'doc.zip'
+    return docZip if isFile docZip
+    return path.join atom.config.resourcePath, '..', 'attach-resources/nageland/doc.zip'
+
   load: ->
-    doczip = path.join atom.configDirPath, 'doc.zip'
+    doczip = @resolveDoc()
     if isFile doczip
       @nageland.load doczip, => @isLoaded()
     else
-      @resolveDocDirectory()
+      atom.config.resourcePath
+      # @resolveDocDirectory()
 
   resolveDocDirectory: ->
     # debug mode find doc
