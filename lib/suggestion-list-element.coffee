@@ -278,7 +278,7 @@ class SuggestionListElement extends HTMLElement
     return unless item?
 
     if item.description? and item.description.length > 0
-      #@descriptionContainer.style.display = 'none'
+      @descriptionContainer.style.display = 'inline'
       @descriptionContent.textContent = item.description
       if item.descriptionMoreURL? and item.descriptionMoreURL.length?
         @descriptionMoreLink.style.display = 'inline'
