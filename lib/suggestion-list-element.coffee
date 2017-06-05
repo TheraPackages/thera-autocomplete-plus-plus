@@ -182,7 +182,6 @@ convertCodeBlocksToAtomEditors = (domFragment, defaultLanguage='text') ->
   for preElement in domFragment.querySelectorAll('pre')
     codeBlock = preElement.firstElementChild ? preElement
     fenceName = codeBlock.getAttribute('class')?.replace(/^lang-/, '') ? defaultLanguage
-    console.log fenceName
 
     editorElement = document.createElement('atom-text-editor')
     editorElement.style['padding'] = "1em"
@@ -246,8 +245,6 @@ class SuggestionListElement extends HTMLElement
     @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.suggestionListFollows', (@suggestionListFollows) =>
     @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.maxVisibleSuggestions', (@maxVisibleSuggestions) =>
     @subscriptions.add atom.config.observe 'thera-autocomplete-plus-plus.useAlternateScoring', (@useAlternateScoring) =>
-
-
 
     this
 
@@ -409,7 +406,12 @@ class SuggestionListElement extends HTMLElement
     selectedItem = items[@selectedIndex]
     scope = selectedItem.provider.selector
     name = selectedItem.text
-    @miniDocument.getMiniDocumentSection scope, name, (data) => @resvData(data)
+    activeDoc = selectedItem.activeDoc
+    if activeDoc
+      @resvData(activeDoc)
+    else
+      @resvData("")
+      @miniDocument.getMiniDocumentSection scope, name, (data) => @resvData(data)
 
   renderItems: ->
     @renderDocument()
@@ -527,6 +529,7 @@ class SuggestionListElement extends HTMLElement
     sanitizedIconHTML = if isString(iconHTML) then iconHTML else undefined
     defaultLetterIconHTML = if sanitizedType then "<span class=\"icon-letter\">#{sanitizedType[0]}</span>" else ''
     defaultIconHTML = DefaultSuggestionTypeIconHTML[sanitizedType] ? defaultLetterIconHTML
+
     if (sanitizedIconHTML or defaultIconHTML) and iconHTML isnt false
       typeIconContainer.innerHTML = IconTemplate
       typeIcon = typeIconContainer.childNodes[0]

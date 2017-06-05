@@ -203,7 +203,7 @@ class AutocompleteManager
       providerPromises.push Promise.resolve(getSuggestions(upgradedOptions)).then (providerSuggestions) =>
         return unless providerSuggestions?
         # TODO API: remove upgrading when 1.0 support is removed
-        
+
         hasDeprecations = false
         if apiIs20 and providerSuggestions.length
           hasDeprecations = @deprecateForSuggestion(provider, providerSuggestions[0])

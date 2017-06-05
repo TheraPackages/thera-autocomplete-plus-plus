@@ -203,7 +203,7 @@
     "stable": "^0.1.5",
     "underscore-plus": "^1.6.6",
     "highlight": "0.2.4",
-    "nageland": "git+https://github.com/TheraPackages/nageland.git#v1.0.2"
+    "nageland": "git+https://github.com/TheraPackages/nageland.git#v1.0.3"
   },
   "description": "Display possible completions in the editor while typing",
   "devDependencies": {
