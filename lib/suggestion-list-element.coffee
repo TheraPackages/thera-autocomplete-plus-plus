@@ -168,6 +168,9 @@ scopesByFenceName =
   'xml': 'text.xml'
   'yaml': 'source.yaml'
   'yml': 'source.yaml'
+  'we': 'source.we'
+  'weexvue': 'source.weexvue'
+
 
 scopeForFenceName = (name) ->
   scopesByFenceName[name]
