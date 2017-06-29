@@ -121,7 +121,7 @@ ListTemplate_BackUp = """
 IconTemplate = '<i class="icon"></i>'
 
 DefaultSuggestionTypeIconHTML =
-  'snippet': '<i class="icon-move-right"></i>'
+  'snippet': '<span class=\"icon-letter\">L</span>'
   'import': '<i class="icon-package"></i>'
   'require': '<i class="icon-package"></i>'
   'module': '<i class="icon-package"></i>'
@@ -408,7 +408,7 @@ class SuggestionListElement extends HTMLElement
 
     selectedItem = items[@selectedIndex]
     scope = selectedItem.provider.selector
-    name = selectedItem.text
+    name = selectedItem.text || selectedItem.displayText
     activeDoc = selectedItem.activeDoc
     if activeDoc
       @resvData(activeDoc)
@@ -422,6 +422,7 @@ class SuggestionListElement extends HTMLElement
     items = @visibleItems() ? []
     longestDesc = 0
     longestDescIndex = null
+
     for item, index in items
       @renderItem(item, index)
       descLength = @descriptionLength(item)
@@ -533,7 +534,7 @@ class SuggestionListElement extends HTMLElement
     defaultLetterIconHTML = if sanitizedType then "<span class=\"icon-letter\">#{sanitizedType[0]}</span>" else ''
     defaultIconHTML = DefaultSuggestionTypeIconHTML[sanitizedType] ? defaultLetterIconHTML
 
-    if (sanitizedIconHTML or defaultIconHTML) and iconHTML isnt false
+    if (sanitizedIconHTML or defaultIconHTML) # and iconHTML isnt false
       typeIconContainer.innerHTML = IconTemplate
       typeIcon = typeIconContainer.childNodes[0]
       typeIcon.innerHTML = sanitizedIconHTML ? defaultIconHTML
